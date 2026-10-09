@@ -1,0 +1,86 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/customer/customer_view.gd" id="1_view"]
+[ext_resource type="Script" path="res://scenes/customer/person_figure.gd" id="2_figure"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patience_bg"]
+bg_color = Color(0.11, 0.063, 0.188, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_speech"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.98, 0.94, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.11, 0.063, 0.188, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 2
+
+[node name="CustomerView" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 480.0
+offset_bottom = 338.0
+mouse_filter = 2
+script = ExtResource("1_view")
+
+[node name="NameLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 20.0
+offset_top = 4.0
+offset_right = 220.0
+offset_bottom = 28.0
+theme_override_colors/font_outline_color = Color(0.11, 0.063, 0.188, 1)
+theme_override_constants/outline_size = 6
+text = "Cliente"
+horizontal_alignment = 1
+
+[node name="PatienceBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 40.0
+offset_top = 32.0
+offset_right = 200.0
+offset_bottom = 46.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_patience_bg")
+value = 100.0
+show_percentage = false
+
+[node name="Figure" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 50.0
+offset_top = 56.0
+offset_right = 190.0
+offset_bottom = 360.0
+mouse_filter = 2
+script = ExtResource("2_figure")
+
+[node name="Speech" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 210.0
+offset_top = 40.0
+offset_right = 470.0
+offset_bottom = 100.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_speech")
+
+[node name="SpeechLabel" type="Label" parent="Speech"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.11, 0.063, 0.188, 1)
+text = "Boa tarde!"
+autowrap_mode = 3

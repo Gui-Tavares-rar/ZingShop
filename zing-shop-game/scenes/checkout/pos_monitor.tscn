@@ -1,0 +1,79 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/checkout/pos_monitor.gd" id="1_monitor"]
+
+[sub_resource type="Theme" id="Theme_screen"]
+Label/colors/font_color = Color(0.49, 1, 0.66, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_screen"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.06, 0.1, 0.08, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.2, 0.2, 0.25, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="PosMonitor" type="PanelContainer"]
+offset_right = 364.0
+offset_bottom = 344.0
+theme = SubResource("Theme_screen")
+theme_override_styles/panel = SubResource("StyleBoxFlat_screen")
+script = ExtResource("1_monitor")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="VBox"]
+layout_mode = 2
+text = "ZING SHOP · CAIXA 01"
+horizontal_alignment = 1
+
+[node name="TopSeparator" type="HSeparator" parent="VBox"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Lines" type="VBoxContainer" parent="VBox/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BottomSeparator" type="HSeparator" parent="VBox"]
+layout_mode = 2
+
+[node name="TotalLabel" type="Label" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "TOTAL  R$ 0,00"
+
+[node name="ReceivedLabel" type="Label" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "RECEBIDO  R$ 0,00"
+
+[node name="StatusLabel" type="Label" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "Aguardando cliente..."
+autowrap_mode = 3
+
+[node name="ChargeButton" type="Button" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+disabled = true
+text = "Cobrar"

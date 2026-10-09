@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://data/item_data.gd" id="1_62i5d"]
+[ext_resource type="Texture2D" path="res://tiles/codfish_01.png" id="2_hek8e"]
+
+[resource]
+script = ExtResource("1_62i5d")
+display_name = "Peixe"
+price_cents = 2750
+texture = ExtResource("2_hek8e")
