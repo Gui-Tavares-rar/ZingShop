@@ -22,6 +22,12 @@ enum PaymentMethod { CARD, CASH }
 ## Segundos que o cliente aguenta no caixa antes de desistir.
 @export var patience_seconds: float = 60.0
 
+@export_group("Voz")
+## Blips tocados enquanto a fala é digitada no balão. Sem voz, o cliente fala em silêncio.
+@export var voice: BlipVoice
+## Multiplica o tom da voz, para clientes com a mesma voz soarem diferentes.
+@export_range(0.5, 2.0, 0.05) var voice_pitch: float = 1.0
+
 
 func get_total_cents() -> int:
 	var total := 0

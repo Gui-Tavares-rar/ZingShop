@@ -1,13 +1,16 @@
-[gd_resource type="Resource" script_class="DayData" format=3]
+[gd_resource type="Resource" script_class="DayData" format=3 uid="uid://cgoshmiwm6iec"]
 
-[ext_resource type="Script" path="res://data/customer_data.gd" id="1_p4oql"]
-[ext_resource type="Script" path="res://data/item_data.gd" id="2_tafq0"]
+[ext_resource type="Script" uid="uid://djv3jiwu3vngt" path="res://data/customer_data.gd" id="1_p4oql"]
+[ext_resource type="Script" uid="uid://bl8c30rgmyhpw" path="res://data/item_data.gd" id="2_tafq0"]
 [ext_resource type="Resource" path="res://data/items/maca.tres" id="3_5u7sl"]
 [ext_resource type="Resource" path="res://data/items/cenoura.tres" id="4_l4lrq"]
 [ext_resource type="Resource" path="res://data/items/carne.tres" id="5_q24my"]
 [ext_resource type="Resource" path="res://data/items/ovos.tres" id="6_o05bc"]
 [ext_resource type="Resource" path="res://data/items/peixe.tres" id="7_f0opt"]
-[ext_resource type="Script" path="res://data/day_data.gd" id="8_x7h46"]
+[ext_resource type="Script" uid="uid://dgik8wey7ohbk" path="res://data/day_data.gd" id="8_x7h46"]
+[ext_resource type="Resource" path="res://addons/dialogue_blips/voices/calm/calm.tres" id="9_calm"]
+[ext_resource type="Resource" path="res://addons/dialogue_blips/voices/bright/bright.tres" id="10_bright"]
+[ext_resource type="Resource" path="res://addons/dialogue_blips/voices/square/square.tres" id="11_square"]
 
 [sub_resource type="Resource" id="Resource_18lxk"]
 script = ExtResource("1_p4oql")
@@ -18,6 +21,8 @@ items = Array[ExtResource("2_tafq0")]([ExtResource("3_5u7sl"), ExtResource("3_5u
 payment_method = 1
 cash_given_cents = 1000
 patience_seconds = 70.0
+voice = ExtResource("9_calm")
+voice_pitch = 1.15
 
 [sub_resource type="Resource" id="Resource_4od4i"]
 script = ExtResource("1_p4oql")
@@ -26,6 +31,8 @@ greeting = "E aí, tudo certo?"
 body_color = Color(0.3529412, 0.48235294, 0.8509804, 1)
 items = Array[ExtResource("2_tafq0")]([ExtResource("5_q24my"), ExtResource("6_o05bc")])
 arrival_time = 6.0
+voice = ExtResource("9_calm")
+voice_pitch = 0.8
 
 [sub_resource type="Resource" id="Resource_nf14u"]
 script = ExtResource("1_p4oql")
@@ -37,6 +44,8 @@ payment_method = 1
 cash_given_cents = 5000
 arrival_time = 30.0
 patience_seconds = 45.0
+voice = ExtResource("10_bright")
+voice_pitch = 1.2
 
 [sub_resource type="Resource" id="Resource_54y5x"]
 script = ExtResource("1_p4oql")
@@ -45,6 +54,8 @@ greeting = "Opa."
 body_color = Color(0.27450982, 0.76862746, 0.43137255, 1)
 items = Array[ExtResource("2_tafq0")]([ExtResource("6_o05bc"), ExtResource("6_o05bc"), ExtResource("3_5u7sl"), ExtResource("3_5u7sl")])
 arrival_time = 55.0
+voice = ExtResource("11_square")
+voice_pitch = 0.85
 
 [sub_resource type="Resource" id="Resource_ait7c"]
 script = ExtResource("1_p4oql")
@@ -56,6 +67,8 @@ payment_method = 1
 cash_given_cents = 10000
 arrival_time = 80.0
 patience_seconds = 80.0
+voice = ExtResource("10_bright")
+voice_pitch = 0.95
 
 [resource]
 script = ExtResource("8_x7h46")
