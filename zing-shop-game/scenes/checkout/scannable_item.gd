@@ -73,7 +73,9 @@ func get_center() -> Vector2:
 
 
 func _set_center(global_center: Vector2) -> void:
-	position = get_parent_control().get_global_transform().affine_inverse() * global_center - size * 0.5
+	# Transformação do espaço do pai, obtida sem acessar o nó pai.
+	var parent_transform := get_global_transform() * get_transform().affine_inverse()
+	position = parent_transform.affine_inverse() * global_center - size * 0.5
 
 
 func _gui_input(event: InputEvent) -> void:

@@ -1,23 +1,16 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bhpius3rof41v"]
 
-[ext_resource type="Script" path="res://scenes/main.gd" id="1_main"]
-[ext_resource type="Resource" path="res://data/days/day_1.tres" id="2_day"]
+[ext_resource type="Script" uid="uid://2p3io1gpknnf" path="res://scenes/main.gd" id="1_main"]
+[ext_resource type="Resource" uid="uid://cgoshmiwm6iec" path="res://data/days/day_1.tres" id="2_day"]
 [ext_resource type="PackedScene" path="res://scenes/customer/customer_view.tscn" id="3_customer"]
 [ext_resource type="PackedScene" path="res://scenes/checkout/pos_monitor.tscn" id="4_monitor"]
-[ext_resource type="Script" path="res://scenes/checkout/scanner.gd" id="5_scanner"]
-[ext_resource type="Script" path="res://scenes/checkout/card_machine.gd" id="6_card"]
+[ext_resource type="Script" uid="uid://bj2j5fa7ok7k2" path="res://scenes/checkout/scanner.gd" id="5_scanner"]
+[ext_resource type="Script" uid="uid://bbc7rgsvkb7pd" path="res://scenes/checkout/card_machine.gd" id="6_card"]
 [ext_resource type="PackedScene" path="res://scenes/checkout/cash_drawer.tscn" id="7_drawer"]
 [ext_resource type="PackedScene" path="res://scenes/checkout/change_tray.tscn" id="8_tray"]
 [ext_resource type="PackedScene" path="res://scenes/bathroom/bathroom.tscn" id="9_bathroom"]
 [ext_resource type="PackedScene" path="res://scenes/ui/day_summary.tscn" id="10_summary"]
-[ext_resource type="Texture2D" path="res://assets/backgrounds/supermarket.png" id="11_background"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
-content_margin_left = 16.0
-content_margin_top = 6.0
-content_margin_right = 16.0
-content_margin_bottom = 6.0
-bg_color = Color(0.11, 0.063, 0.188, 1)
+[ext_resource type="Texture2D" uid="uid://m84ykvis2pii" path="res://assets/backgrounds/supermarket.png" id="11_background"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bag"]
 bg_color = Color(0.85, 0.74, 0.56, 1)
@@ -53,6 +46,13 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+bg_color = Color(0.11, 0.063, 0.188, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
 content_margin_left = 12.0
 content_margin_top = 8.0
@@ -69,7 +69,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="Main" type="Control"]
+[node name="Main" type="Control" unique_id=863368588]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -79,24 +79,14 @@ grow_vertical = 2
 script = ExtResource("1_main")
 day = ExtResource("2_day")
 
-[node name="Wall" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.18, 0.1, 0.32, 1)
-
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=890699286]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 640.0
 mouse_filter = 2
 texture = ExtResource("11_background")
 
-[node name="QueueTitle" type="Label" parent="."]
+[node name="QueueTitle" type="Label" parent="." unique_id=1961079885]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 240.0
@@ -106,7 +96,7 @@ theme_override_colors/font_outline_color = Color(0.11, 0.063, 0.188, 1)
 theme_override_constants/outline_size = 6
 text = "Fila"
 
-[node name="QueueRow" type="HBoxContainer" parent="."]
+[node name="QueueRow" type="HBoxContainer" parent="." unique_id=1434995562]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 16.0
@@ -117,7 +107,7 @@ mouse_filter = 2
 theme_override_constants/separation = 10
 alignment = 2
 
-[node name="CustomerView" parent="." instance=ExtResource("3_customer")]
+[node name="CustomerView" parent="." unique_id=661672052 instance=ExtResource("3_customer")]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 400.0
@@ -125,26 +115,24 @@ offset_top = 140.0
 offset_right = 880.0
 offset_bottom = 478.0
 
-[node name="Desk" type="ColorRect" parent="."]
+[node name="Desk" type="ColorRect" parent="." unique_id=242549796]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 0.0
 offset_top = 480.0
 offset_right = 1280.0
 offset_bottom = 720.0
 mouse_filter = 2
-color = Color(0.42, 0.31, 0.7, 1)
+color = Color(0.27668175, 0.27295706, 0.2785458, 1)
 
-[node name="DeskEdge" type="ColorRect" parent="."]
+[node name="DeskEdge" type="ColorRect" parent="." unique_id=1549168177]
 layout_mode = 0
-offset_left = 0.0
 offset_top = 474.0
 offset_right = 1280.0
 offset_bottom = 482.0
 mouse_filter = 2
-color = Color(1, 0.435, 0.659, 1)
+color = Color(0.029903969, 0.036248565, 0.027910054, 1)
 
-[node name="Monitor" parent="." instance=ExtResource("4_monitor")]
+[node name="Monitor" parent="." unique_id=215953002 instance=ExtResource("4_monitor")]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 900.0
@@ -152,18 +140,18 @@ offset_top = 140.0
 offset_right = 1264.0
 offset_bottom = 490.0
 
-[node name="ItemLandingArea" type="Control" parent="."]
+[node name="ItemLandingArea" type="Control" parent="." unique_id=228904967]
 unique_name_in_owner = true
-layout_mode = 0
+anchors_preset = 0
 offset_left = 16.0
 offset_top = 496.0
 offset_right = 384.0
 offset_bottom = 704.0
 mouse_filter = 2
 
-[node name="Scanner" type="Control" parent="."]
+[node name="Scanner" type="Control" parent="." unique_id=1920500268]
 unique_name_in_owner = true
-layout_mode = 0
+anchors_preset = 0
 offset_left = 400.0
 offset_top = 540.0
 offset_right = 500.0
@@ -171,7 +159,7 @@ offset_bottom = 640.0
 mouse_filter = 2
 script = ExtResource("5_scanner")
 
-[node name="Bag" type="Panel" parent="."]
+[node name="Bag" type="Panel" parent="." unique_id=1719104920]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 516.0
@@ -181,7 +169,7 @@ offset_bottom = 704.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bag")
 
-[node name="BagLabel" type="Label" parent="Bag"]
+[node name="BagLabel" type="Label" parent="Bag" unique_id=1908409560]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 6.0
@@ -191,7 +179,7 @@ theme_override_colors/font_color = Color(0.36, 0.25, 0.13, 1)
 text = "Sacola"
 horizontal_alignment = 1
 
-[node name="CardMachine" type="Button" parent="."]
+[node name="CardMachine" type="Button" parent="." unique_id=553038823]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 656.0
@@ -200,17 +188,17 @@ offset_right = 776.0
 offset_bottom = 640.0
 focus_mode = 0
 theme_override_colors/font_color = Color(0.49, 1, 0.66, 1)
-theme_override_colors/font_hover_color = Color(0.49, 1, 0.66, 1)
 theme_override_colors/font_pressed_color = Color(0.49, 1, 0.66, 1)
+theme_override_colors/font_hover_color = Color(0.49, 1, 0.66, 1)
 theme_override_colors/font_disabled_color = Color(0.6, 0.6, 0.65, 1)
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("StyleBoxFlat_card")
-theme_override_styles/hover = SubResource("StyleBoxFlat_card_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
+theme_override_styles/hover = SubResource("StyleBoxFlat_card_hover")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_card")
 script = ExtResource("6_card")
 
-[node name="CashDrawer" parent="." instance=ExtResource("7_drawer")]
+[node name="CashDrawer" parent="." unique_id=2008359974 instance=ExtResource("7_drawer")]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 792.0
@@ -218,7 +206,7 @@ offset_top = 496.0
 offset_right = 1264.0
 offset_bottom = 600.0
 
-[node name="ChangeTray" parent="." instance=ExtResource("8_tray")]
+[node name="ChangeTray" parent="." unique_id=316094566 instance=ExtResource("8_tray")]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 792.0
@@ -226,42 +214,42 @@ offset_top = 608.0
 offset_right = 1264.0
 offset_bottom = 704.0
 
-[node name="HUD" type="PanelContainer" parent="."]
+[node name="HUD" type="PanelContainer" parent="." unique_id=1869111783]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 44.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
 
-[node name="HBox" type="HBoxContainer" parent="HUD"]
+[node name="HBox" type="HBoxContainer" parent="HUD" unique_id=338380862]
 layout_mode = 2
 theme_override_constants/separation = 32
 
-[node name="DayLabel" type="Label" parent="HUD/HBox"]
+[node name="DayLabel" type="Label" parent="HUD/HBox" unique_id=1653389789]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
 text = "Dia 1"
 
-[node name="ServedLabel" type="Label" parent="HUD/HBox"]
+[node name="ServedLabel" type="Label" parent="HUD/HBox" unique_id=341177247]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Atendidos: 0/5"
 
-[node name="EarningsLabel" type="Label" parent="HUD/HBox"]
+[node name="EarningsLabel" type="Label" parent="HUD/HBox" unique_id=616386362]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Ganho do dia: R$ 0,00"
 
-[node name="Spacer" type="Control" parent="HUD/HBox"]
+[node name="Spacer" type="Control" parent="HUD/HBox" unique_id=1648866841]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="BathroomTitle" type="Label" parent="HUD/HBox"]
+[node name="BathroomTitle" type="Label" parent="HUD/HBox" unique_id=1026608034]
 layout_mode = 2
 text = "Banheiro"
 
-[node name="BathroomBar" type="ProgressBar" parent="HUD/HBox"]
+[node name="BathroomBar" type="ProgressBar" parent="HUD/HBox" unique_id=1804900207]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(220, 18)
 layout_mode = 2
@@ -269,7 +257,7 @@ size_flags_vertical = 4
 mouse_filter = 2
 show_percentage = false
 
-[node name="ItemLayer" type="Control" parent="."]
+[node name="ItemLayer" type="Control" parent="." unique_id=704111506]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -279,12 +267,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Bathroom" parent="." instance=ExtResource("9_bathroom")]
+[node name="Bathroom" parent="." unique_id=961802005 instance=ExtResource("9_bathroom")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
-[node name="BossToast" type="PanelContainer" parent="."]
+[node name="BossToast" type="PanelContainer" parent="." unique_id=1079147135]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 16.0
@@ -294,14 +282,14 @@ offset_bottom = 140.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_toast")
 
-[node name="BossLabel" type="Label" parent="BossToast"]
+[node name="BossLabel" type="Label" parent="BossToast" unique_id=600196361]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.11, 0.063, 0.188, 1)
 text = "CHEFE: ..."
 autowrap_mode = 3
 
-[node name="DaySummary" parent="." instance=ExtResource("10_summary")]
+[node name="DaySummary" parent="." unique_id=1658793022 instance=ExtResource("10_summary")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
