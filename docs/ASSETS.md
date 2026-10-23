@@ -30,4 +30,7 @@ Ferramentas: [Piskel](https://www.piskelapp.com) (grátis, no navegador) ou Asep
 
 ## Outras fontes
 
-- Foto do banheiro: [Unsplash](https://unsplash.com) ou [Pexels](https://www.pexels.com) (uso livre).
+- Foto do banheiro: [Vaso sanitário de cerâmica branca](https://unsplash.com/pt-br/fotografias/vaso-sanitario-de-ceramica-branca-VCVI5QUvFAY),
+  por [Gabor Monori](https://unsplash.com/@gabor) no Unsplash. Licença Unsplash: uso livre, inclusive comercial,
+  sem crédito obrigatório (mas vamos creditar mesmo assim). Banheiro abandonado com pichação; a sujeira em pixel vai por cima.
+  No projeto: `assets/backgrounds/bathroom.jpg` (reduzida para 1920 px); o original em resolução cheia está em `extras/originais/`.

@@ -2,32 +2,37 @@ class_name Bathroom
 extends Control
 
 ## Minigame do banheiro: segure o botão esquerdo e passe a mangueira sobre a sujeira.
+## O fundo é uma foto; a sujeira, a mangueira e a água são pixel art desenhada por cima.
 ## A fila continua andando enquanto isso, só que mais devagar (ver DayData).
 
 signal cleaned
 
-const SPOT_COUNT := 8
-const SPRAY_RADIUS := 36.0
-## Quanto de sujeira (0 a 1) a água remove por segundo.
-const CLEAN_RATE := 0.9
-const TILE_SIZE := 64.0
-const TILE_COLOR := Color("d6e6f0")
-const GROUT_COLOR := Color("b3c7d6")
-const DIRT_COLOR := Color("5c4022")
+const SPOT_COUNT := 9
+## Tamanho de um "pixel" da sujeira, da mangueira e da água.
+const PIXEL := 10.0
+const SPRAY_RADIUS := 44.0
+## Quanto de sujeira (0 a 1) a água remove por segundo de cada pixel.
+const CLEAN_RATE := 2.2
+## Fração de sujeira que pode sobrar, para o jogador não caçar pixel solto.
+const CLEAN_TOLERANCE := 0.03
+## Onde a sujeira aparece, em frações do tamanho da tela: corredor do vaso e paredes dos lados.
+const DIRT_AREAS: Array[Rect2] = [
+	Rect2(0.36, 0.22, 0.27, 0.72),
+	Rect2(0.77, 0.18, 0.13, 0.62),
+	Rect2(0.21, 0.12, 0.08, 0.72),
+]
+## Cores-base das manchas: marrom, verde-limo e amarelo-xixi.
+const DIRT_PALETTES: Array[Color] = [Color("5c3a1e"), Color("6fae2e"), Color("d9b326")]
 const HOSE_COLOR := Color("2f7d4a")
-const WATER_COLOR := Color(0.55, 0.8, 1.0, 0.55)
+const NOZZLE_COLOR := Color("444450")
+const WATER_COLOR := Color(0.55, 0.8, 1.0, 0.6)
 
+@export var photo: Texture2D
 
-class DirtSpot:
-	var center: Vector2
-	var dirt := 1.0
-	## x, y = deslocamento a partir do centro; z = raio.
-	var blobs: Array[Vector3] = []
-	## Distância do centro até a borda mais longe da mancha.
-	var reach := 0.0
-
-
-var _spots: Array[DirtSpot] = []
+## Pixels de sujeira em listas paralelas: canto superior esquerdo, cor e quanto falta limpar (0 a 1).
+var _dirt_positions: PackedVector2Array = []
+var _dirt_colors: PackedColorArray = []
+var _dirt_amounts: PackedFloat32Array = []
 var _spraying := false
 
 @onready var _progress_label: Label = %ProgressLabel
@@ -36,16 +41,12 @@ var _spraying := false
 
 
 func start() -> void:
-	_spots.clear()
+	_dirt_positions.clear()
+	_dirt_colors.clear()
+	_dirt_amounts.clear()
+	var taken := {}
 	for i in SPOT_COUNT:
-		var spot := DirtSpot.new()
-		spot.center = Vector2(randf_range(120.0, size.x - 280.0), randf_range(270.0, size.y - 110.0))
-		for j in randi_range(4, 7):
-			var offset := Vector2.from_angle(randf() * TAU) * randf_range(0.0, 34.0)
-			var radius := randf_range(14.0, 30.0)
-			spot.blobs.append(Vector3(offset.x, offset.y, radius))
-			spot.reach = maxf(spot.reach, offset.length() + radius)
-		_spots.append(spot)
+		_add_spot(_random_spot_center(), DIRT_PALETTES.pick_random(), taken)
 	_spraying = false
 	_update_progress()
 	show()
@@ -71,53 +72,119 @@ func _process(delta: float) -> void:
 	if not _spraying:
 		return
 	var nozzle := get_local_mouse_position()
-	for spot in _spots:
-		if spot.dirt > 0.0 and nozzle.distance_to(spot.center) <= spot.reach + SPRAY_RADIUS:
-			spot.dirt = maxf(spot.dirt - CLEAN_RATE * delta, 0.0)
+	var half_pixel := Vector2(PIXEL, PIXEL) * 0.5
+	for i in _dirt_amounts.size():
+		if _dirt_amounts[i] > 0.0 and nozzle.distance_to(_dirt_positions[i] + half_pixel) <= SPRAY_RADIUS:
+			_dirt_amounts[i] = maxf(_dirt_amounts[i] - CLEAN_RATE * delta, 0.0)
 	_update_progress()
-	if _spots.all(func(spot: DirtSpot) -> bool: return spot.dirt <= 0.0):
+	if _remaining_dirt() <= CLEAN_TOLERANCE:
 		_spraying = false
 		hide()
 		cleaned.emit()
 
 
-func _update_progress() -> void:
+## Sorteia o centro de uma mancha numa das áreas, com chance proporcional ao tamanho da área.
+func _random_spot_center() -> Vector2:
+	var total := 0.0
+	for area in DIRT_AREAS:
+		total += area.get_area()
+	var roll := randf() * total
+	for area in DIRT_AREAS:
+		roll -= area.get_area()
+		if roll <= 0.0:
+			return (area.position + area.size * Vector2(randf(), randf())) * size
+	return DIRT_AREAS[0].get_center() * size
+
+
+## Uma mancha é um punhado de círculos rasterizados na grade de pixels, com contorno escuro.
+func _add_spot(center: Vector2, base_color: Color, taken: Dictionary) -> void:
+	var origin := Vector2i((center / PIXEL).floor())
+	var blobs: Array[Vector3] = []
+	for i in randi_range(3, 6):
+		var offset := Vector2.from_angle(randf() * TAU) * randf_range(0.0, 3.0)
+		blobs.append(Vector3(offset.x, offset.y, randf_range(1.5, 3.5)))
+	var cells := {}
+	for y in range(-7, 8):
+		for x in range(-7, 8):
+			for blob in blobs:
+				if Vector2(x, y).distance_to(Vector2(blob.x, blob.y)) <= blob.z:
+					cells[origin + Vector2i(x, y)] = true
+					break
+	var outline := {}
+	for cell: Vector2i in cells:
+		for side: Vector2i in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+			if not cells.has(cell + side):
+				outline[cell + side] = true
+	for cell: Vector2i in outline:
+		_add_dirt_pixel(cell, base_color.darkened(0.6), taken)
+	for cell: Vector2i in cells:
+		var shade := base_color.lightened(0.35) if randf() < 0.08 else base_color.darkened(randf_range(0.0, 0.2))
+		_add_dirt_pixel(cell, shade, taken)
+
+
+## Pixels de manchas diferentes podem se sobrepor; o último desenhado vence.
+func _add_dirt_pixel(cell: Vector2i, color: Color, taken: Dictionary) -> void:
+	if taken.has(cell):
+		_dirt_colors[taken[cell]] = color
+		return
+	taken[cell] = _dirt_amounts.size()
+	_dirt_positions.append(Vector2(cell) * PIXEL)
+	_dirt_colors.append(color)
+	_dirt_amounts.append(1.0)
+
+
+func _remaining_dirt() -> float:
+	if _dirt_amounts.is_empty():
+		return 0.0
 	var remaining := 0.0
-	for spot in _spots:
-		remaining += spot.dirt
-	var percent := roundi((1.0 - remaining / _spots.size()) * 100.0)
-	_progress_label.text = "Limpo: %d%%" % percent
+	for amount in _dirt_amounts:
+		remaining += amount
+	return remaining / _dirt_amounts.size()
+
+
+func _update_progress() -> void:
+	var cleaned_ratio := clampf((1.0 - _remaining_dirt()) / (1.0 - CLEAN_TOLERANCE), 0.0, 1.0)
+	_progress_label.text = "Limpo: %d%%" % roundi(cleaned_ratio * 100.0)
 
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO, size), TILE_COLOR)
-	for x in range(0, int(size.x) + 1, int(TILE_SIZE)):
-		draw_line(Vector2(x, 0.0), Vector2(x, size.y), GROUT_COLOR, 2.0)
-	for y in range(0, int(size.y) + 1, int(TILE_SIZE)):
-		draw_line(Vector2(0.0, y), Vector2(size.x, y), GROUT_COLOR, 2.0)
-	_draw_toilet(Vector2(size.x - 220.0, 260.0))
+	_draw_photo()
+	var pixel_size := Vector2(PIXEL, PIXEL)
+	for i in _dirt_amounts.size():
+		if _dirt_amounts[i] > 0.0:
+			# A sujeira some em degraus, para continuar com cara de pixel art.
+			var alpha := ceilf(_dirt_amounts[i] * 4.0) / 4.0
+			draw_rect(Rect2(_dirt_positions[i], pixel_size), Color(_dirt_colors[i], alpha))
+	_draw_hose(get_local_mouse_position())
 
-	for spot in _spots:
-		var color := Color(DIRT_COLOR, spot.dirt * 0.9)
-		for blob in spot.blobs:
-			draw_circle(spot.center + Vector2(blob.x, blob.y), blob.z, color)
 
-	var nozzle := get_local_mouse_position()
-	draw_line(Vector2(size.x * 0.5, size.y + 20.0), nozzle + Vector2(0.0, 28.0), HOSE_COLOR, 10.0)
-	draw_rect(Rect2(nozzle + Vector2(-6.0, 6.0), Vector2(12.0, 24.0)), Color("444450"))
+## A foto preenche a tela inteira, cortando as sobras para não distorcer.
+func _draw_photo() -> void:
+	if photo == null:
+		return
+	var texture_size := photo.get_size()
+	var scale_factor := maxf(size.x / texture_size.x, size.y / texture_size.y)
+	var source_size := size / scale_factor
+	draw_texture_rect_region(photo, Rect2(Vector2.ZERO, size),
+		Rect2((texture_size - source_size) * 0.5, source_size))
+
+
+func _draw_hose(nozzle: Vector2) -> void:
+	var hose_start := Vector2(size.x * 0.5, size.y + PIXEL * 2.0)
+	var end := nozzle + Vector2(0.0, PIXEL * 3.0)
+	# A mangueira cai um pouco entre a borda da tela e a mão.
+	var sag := (hose_start + end) * 0.5 + Vector2(0.0, 120.0)
+	var steps := int(hose_start.distance_to(end) / (PIXEL * 0.5)) + 2
+	for i in steps + 1:
+		var t := float(i) / steps
+		var point := hose_start.lerp(sag, t).lerp(sag.lerp(end, t), t)
+		draw_rect(Rect2(_snap(point), Vector2(PIXEL, PIXEL)), HOSE_COLOR)
+	draw_rect(Rect2(_snap(nozzle + Vector2(-PIXEL * 0.5, PIXEL * 0.5)), Vector2(PIXEL, PIXEL * 2.5)), NOZZLE_COLOR)
 	if _spraying:
-		draw_circle(nozzle, SPRAY_RADIUS, WATER_COLOR)
-		for i in 8:
-			var drop := nozzle + Vector2.from_angle(randf() * TAU) * randf() * SPRAY_RADIUS * 1.3
-			draw_circle(drop, randf_range(2.0, 5.0), Color.WHITE)
+		for i in 18:
+			var drop := nozzle + Vector2.from_angle(randf() * TAU) * randf() * SPRAY_RADIUS
+			draw_rect(Rect2(_snap(drop), Vector2(PIXEL, PIXEL)), WATER_COLOR if i % 4 else Color.WHITE)
 
 
-func _draw_toilet(origin: Vector2) -> void:
-	var porcelain := Color("fafafa")
-	var shadow := Color("c9d3da")
-	draw_rect(Rect2(origin, Vector2(110.0, 70.0)), porcelain)
-	draw_rect(Rect2(origin, Vector2(110.0, 70.0)), shadow, false, 3.0)
-	draw_rect(Rect2(origin + Vector2(20.0, 120.0), Vector2(70.0, 90.0)), porcelain)
-	draw_circle(origin + Vector2(55.0, 115.0), 55.0, porcelain)
-	draw_arc(origin + Vector2(55.0, 115.0), 55.0, 0.0, TAU, 40, shadow, 3.0)
-	draw_circle(origin + Vector2(55.0, 115.0), 34.0, Color("bfe0f2"))
+func _snap(point: Vector2) -> Vector2:
+	return (point / PIXEL).floor() * PIXEL
