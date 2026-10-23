@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://data/item_data.gd" id="1_crruh"]
+[ext_resource type="Texture2D" path="res://tiles/apple_red_01.png" id="2_od6j3"]
+
+[resource]
+script = ExtResource("1_crruh")
+display_name = "Maçã"
+price_cents = 175
+texture = ExtResource("2_od6j3")

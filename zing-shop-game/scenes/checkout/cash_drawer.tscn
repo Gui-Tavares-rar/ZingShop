@@ -1,0 +1,60 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/checkout/cash_drawer.gd" id="1_drawer"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drawer"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.2, 0.16, 0.26, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.11, 0.063, 0.188, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hold"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.11, 0.063, 0.188, 0.92)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="CashDrawer" type="PanelContainer"]
+offset_right = 472.0
+offset_bottom = 104.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_drawer")
+script = ExtResource("1_drawer")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CoinsRow" type="HBoxContainer" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="BillsRow" type="HBoxContainer" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="HoldLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+top_level = true
+z_index = 100
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_hold")
+text = "1 × R$ 1 = R$ 1,00"

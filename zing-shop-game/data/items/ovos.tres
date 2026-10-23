@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://data/item_data.gd" id="1_or4b1"]
+[ext_resource type="Texture2D" path="res://tiles/egg_chicken_01.png" id="2_uotjt"]
+
+[resource]
+script = ExtResource("1_or4b1")
+display_name = "Ovos (dúzia)"
+price_cents = 1290
+texture = ExtResource("2_uotjt")
