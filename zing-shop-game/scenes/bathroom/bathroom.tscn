@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" path="res://scenes/bathroom/bathroom.gd" id="1_bathroom"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/bathroom.jpg" id="2_photo"]
+[ext_resource type="Script" path="res://scenes/bathroom/bathroom_dirt.gd" id="3_dirt"]
+[ext_resource type="Script" path="res://scenes/bathroom/hose.gd" id="4_hose"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patience_bg"]
 bg_color = Color(0.11, 0.063, 0.188, 1)
@@ -24,9 +26,42 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture_filter = 2
 script = ExtResource("1_bathroom")
-photo = ExtResource("2_photo")
+
+[node name="Photo" type="TextureRect" parent="."]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_photo")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Dirt" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_dirt")
+
+[node name="Hose" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_hose")
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 1
