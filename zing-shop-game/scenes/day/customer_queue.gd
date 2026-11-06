@@ -9,14 +9,14 @@ signal changed
 ## Clientes esperando, o primeiro é o próximo a ser atendido.
 var waiting: Array[CustomerData] = []
 
-## Clientes que ainda não chegaram, em ordem de chegada.
-var _arrivals: Array[CustomerData] = []
+## Chegadas que ainda não aconteceram, em ordem de horário.
+var _arrivals: Array[CustomerArrival] = []
 var _clock := 0.0
 
 
-func _init(customers: Array[CustomerData]) -> void:
-	_arrivals = customers.duplicate()
-	_arrivals.sort_custom(func(a: CustomerData, b: CustomerData) -> bool: return a.arrival_time < b.arrival_time)
+func _init(arrivals: Array[CustomerArrival]) -> void:
+	_arrivals = arrivals.duplicate()
+	_arrivals.sort_custom(func(a: CustomerArrival, b: CustomerArrival) -> bool: return a.arrival_time < b.arrival_time)
 
 
 ## Avança o relógio do dia e coloca na fila quem já chegou.
@@ -24,7 +24,7 @@ func advance(delta: float) -> void:
 	_clock += delta
 	var arrived := false
 	while not _arrivals.is_empty() and _arrivals[0].arrival_time <= _clock:
-		waiting.append(_arrivals.pop_front())
+		waiting.append(_arrivals.pop_front().customer)
 		arrived = true
 	if arrived:
 		changed.emit()

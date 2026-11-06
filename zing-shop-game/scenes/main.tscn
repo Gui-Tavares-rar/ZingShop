@@ -1,14 +1,17 @@
 [gd_scene format=3 uid="uid://bhpius3rof41v"]
 
 [ext_resource type="Script" uid="uid://2p3io1gpknnf" path="res://scenes/main.gd" id="1_main"]
-[ext_resource type="Resource" uid="uid://cgoshmiwm6iec" path="res://data/days/day_1.tres" id="2_day"]
+[ext_resource type="Resource" uid="uid://cgoshmiwm6iec" path="res://data/days/day_1.tres" id="2_ya4ey"]
 [ext_resource type="PackedScene" path="res://scenes/customer/customer_view.tscn" id="3_customer"]
-[ext_resource type="Script" path="res://scenes/customer/queue_view.gd" id="4_queue"]
+[ext_resource type="Script" uid="uid://jip264yeicnx" path="res://scenes/customer/queue_view.gd" id="4_queue"]
 [ext_resource type="PackedScene" path="res://scenes/checkout/checkout.tscn" id="5_checkout"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="6_hud"]
-[ext_resource type="PackedScene" path="res://scenes/bathroom/bathroom.tscn" id="9_bathroom"]
 [ext_resource type="PackedScene" path="res://scenes/ui/boss_toast.tscn" id="7_boss"]
+[ext_resource type="PackedScene" path="res://scenes/inspection/inspection_panel.tscn" id="8_inspection"]
+[ext_resource type="PackedScene" path="res://scenes/bathroom/bathroom.tscn" id="9_bathroom"]
 [ext_resource type="PackedScene" path="res://scenes/ui/day_summary.tscn" id="10_summary"]
+[ext_resource type="AudioStream" uid="uid://gbo6183u0u1k" path="res://assets/sounds/bell.wav" id="12_bell"]
+[ext_resource type="AudioStream" uid="uid://c3xatq8gxxn8f" path="res://assets/sounds/alarm.wav" id="13_alarm"]
 [ext_resource type="Texture2D" uid="uid://m84ykvis2pii" path="res://assets/backgrounds/supermarket.png" id="11_background"]
 
 [node name="Main" type="Control" unique_id=863368588]
@@ -19,7 +22,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_main")
-day = ExtResource("2_day")
+day = ExtResource("2_ya4ey")
 
 [node name="Background" type="TextureRect" parent="." unique_id=890699286]
 layout_mode = 0
@@ -58,11 +61,19 @@ offset_top = 140.0
 offset_right = 880.0
 offset_bottom = 478.0
 
-[node name="Checkout" parent="." instance=ExtResource("5_checkout")]
+[node name="Checkout" parent="." unique_id=1353786008 instance=ExtResource("5_checkout")]
 unique_name_in_owner = true
 layout_mode = 1
 
-[node name="HUD" parent="." instance=ExtResource("6_hud")]
+[node name="InspectionPanel" parent="." unique_id=901775160 instance=ExtResource("8_inspection")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 490.0
+offset_right = 1264.0
+offset_bottom = 710.0
+
+[node name="HUD" parent="." unique_id=1319311009 instance=ExtResource("6_hud")]
 unique_name_in_owner = true
 layout_mode = 0
 offset_right = 1280.0
@@ -73,7 +84,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
-[node name="BossToast" parent="." instance=ExtResource("7_boss")]
+[node name="BossToast" parent="." unique_id=63652938 instance=ExtResource("7_boss")]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 16.0
@@ -85,3 +96,13 @@ offset_bottom = 140.0
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
+
+[node name="BellSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("12_bell")
+volume_db = -4.0
+
+[node name="AlarmSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("13_alarm")
+volume_db = -6.0

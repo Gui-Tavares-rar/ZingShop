@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/backgrounds/bathroom.jpg" id="2_photo"]
 [ext_resource type="Script" path="res://scenes/bathroom/bathroom_dirt.gd" id="3_dirt"]
 [ext_resource type="Script" path="res://scenes/bathroom/hose.gd" id="4_hose"]
+[ext_resource type="AudioStream" uid="uid://cpww6lvv8wn5o" path="res://assets/sounds/water_spray.wav" id="5_spray"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patience_bg"]
 bg_color = Color(0.11, 0.063, 0.188, 1)
@@ -62,6 +63,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("4_hose")
+
+[node name="SpraySound" type="AudioStreamPlayer" parent="Hose"]
+unique_name_in_owner = true
+stream = ExtResource("5_spray")
+volume_db = -6.0
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 1

@@ -3,7 +3,7 @@ extends PanelContainer
 
 ## Recado do chefe: aparece por alguns segundos e some.
 
-const MESSAGE_TIME := 4.0
+const MESSAGE_TIME := 6.0
 
 var _tween: Tween
 

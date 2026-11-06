@@ -11,12 +11,30 @@ const HOSE_COLOR := Color("2f7d4a")
 const NOZZLE_COLOR := Color("444450")
 const WATER_COLOR := Color(0.55, 0.8, 1.0, 0.6)
 
-var spraying := false
+var spraying := false:
+	set(value):
+		spraying = value
+		_update_sound()
+
+@onready var _spray_sound: AudioStreamPlayer = %SpraySound
 
 
 func _process(_delta: float) -> void:
 	if is_visible_in_tree():
 		queue_redraw()
+	# O som do jato é curto e emendado: recomeça sozinho enquanto o botão estiver apertado.
+	if spraying and not _spray_sound.playing:
+		_update_sound()
+
+
+func _update_sound() -> void:
+	if not is_node_ready():
+		return
+	if spraying and is_visible_in_tree():
+		if not _spray_sound.playing:
+			_spray_sound.play()
+	else:
+		_spray_sound.stop()
 
 
 func _draw() -> void:
