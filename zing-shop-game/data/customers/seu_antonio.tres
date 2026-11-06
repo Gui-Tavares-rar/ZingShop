@@ -19,12 +19,12 @@ birth_year = 1964
 [sub_resource type="Resource" id="Resource_q0"]
 script = ExtResource("4_question")
 prompt = "Tem mais alguma coisa para passar?"
-answer = "Só isso mesmo, filha. Pode conferir à vontade."
+answer = "Só isso mesmo. Pode conferir à vontade."
 
 [resource]
 script = ExtResource("1_customer")
 display_name = "Seu Antônio"
-greeting = "Boa tarde, filha. Vou levar uma gelada pro almoço."
+greeting = "Boa tarde. Vou levar uma gelada pro almoço."
 body_color = Color(0.55, 0.45, 0.35, 1)
 items = Array[ExtResource("2_item")]([ExtResource("item_cerveja"), ExtResource("item_cerveja"), ExtResource("item_ovos"), ExtResource("item_carne")])
 payment_method = 1

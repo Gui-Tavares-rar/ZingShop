@@ -84,7 +84,7 @@ func _spawn_items(throw_from: Vector2) -> void:
 		item.released.connect(_on_item_released)
 		_items.append(item)
 		var from := throw_from - item.size / 2.0
-		get_tree().create_timer(i * ITEM_THROW_INTERVAL).timeout.connect(
+		get_tree().create_timer(i * ITEM_THROW_INTERVAL, false).timeout.connect(
 			item.throw_to.bind(from, landings[i], ITEM_FLIGHT_TIME))
 
 

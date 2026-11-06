@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" path="res://scenes/inspection/inspection_panel.tscn" id="8_inspection"]
 [ext_resource type="PackedScene" path="res://scenes/bathroom/bathroom.tscn" id="9_bathroom"]
 [ext_resource type="PackedScene" path="res://scenes/ui/day_summary.tscn" id="10_summary"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="14_pause"]
+[ext_resource type="PackedScene" path="res://scenes/ui/end_screen.tscn" id="15_end"]
 [ext_resource type="AudioStream" uid="uid://gbo6183u0u1k" path="res://assets/sounds/bell.wav" id="12_bell"]
 [ext_resource type="AudioStream" uid="uid://c3xatq8gxxn8f" path="res://assets/sounds/alarm.wav" id="13_alarm"]
 [ext_resource type="Texture2D" uid="uid://m84ykvis2pii" path="res://assets/backgrounds/supermarket.png" id="11_background"]
@@ -30,16 +32,6 @@ offset_right = 1280.0
 offset_bottom = 640.0
 mouse_filter = 2
 texture = ExtResource("11_background")
-
-[node name="QueueTitle" type="Label" parent="." unique_id=1961079885]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 240.0
-offset_right = 384.0
-offset_bottom = 264.0
-theme_override_colors/font_outline_color = Color(0.11, 0.063, 0.188, 1)
-theme_override_constants/outline_size = 6
-text = "Fila"
 
 [node name="QueueRow" type="HBoxContainer" parent="." unique_id=1434995562]
 unique_name_in_owner = true
@@ -95,6 +87,14 @@ offset_bottom = 140.0
 [node name="DaySummary" parent="." unique_id=1658793022 instance=ExtResource("10_summary")]
 unique_name_in_owner = true
 visible = false
+layout_mode = 1
+
+[node name="EndScreen" parent="." instance=ExtResource("15_end")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="PauseMenu" parent="." instance=ExtResource("14_pause")]
+unique_name_in_owner = true
 layout_mode = 1
 
 [node name="BellSound" type="AudioStreamPlayer" parent="."]

@@ -40,6 +40,12 @@ func _gui_input(event: InputEvent) -> void:
 		accept_event()
 
 
+## Pausar no meio do jato: o botão pode ser solto fora daqui, então a mangueira para.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PAUSED and _hose:
+		_hose.spraying = false
+
+
 func _process(delta: float) -> void:
 	if not visible or not _hose.spraying:
 		return

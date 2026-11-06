@@ -32,6 +32,8 @@ var _bathroom_meter := 0.0
 @onready var _bathroom: Bathroom = %Bathroom
 @onready var _boss: BossToast = %BossToast
 @onready var _day_summary: DaySummary = %DaySummary
+@onready var _end_screen: EndScreen = %EndScreen
+@onready var _pause_menu: PauseMenu = %PauseMenu
 @onready var _bell_sound: AudioStreamPlayer = %BellSound
 @onready var _alarm_sound: AudioStreamPlayer = %AlarmSound
 
@@ -48,6 +50,8 @@ func _ready() -> void:
 	_checkout.sale_finished.connect(_on_sale_finished)
 	_bathroom.cleaned.connect(_on_bathroom_cleaned)
 	_day_summary.continue_pressed.connect(_on_next_day_pressed)
+	_end_screen.menu_requested.connect(_leave_to_menu)
+	_pause_menu.leave_requested.connect(_leave_to_menu)
 	_bathroom.hide()
 	_day_summary.hide()
 	_refresh_hud()
@@ -200,7 +204,7 @@ func _customer_gives_up() -> void:
 func _dismiss_customer_later() -> void:
 	_state = State.CUSTOMER_LEAVING
 	_refresh_hud()
-	get_tree().create_timer(CUSTOMER_EXIT_DELAY).timeout.connect(_dismiss_customer)
+	get_tree().create_timer(CUSTOMER_EXIT_DELAY, false).timeout.connect(_dismiss_customer)
 
 
 func _dismiss_customer() -> void:
@@ -245,18 +249,32 @@ func _on_bathroom_cleaned() -> void:
 
 func _end_day() -> void:
 	_state = State.DAY_OVER
-	var button_text := "Próximo dia" if day.next_day else "Voltar ao menu"
-	_day_summary.present("Fim do Dia %d" % day.day_number, _results.summary_lines(day.customer_count()), button_text)
+	var button_text := "Próximo dia" if day.next_day else "Ver resultado"
+	var lines := _results.summary_lines(day.customer_count())
+	lines.append("Na semana: %s de %s" % [Money.format(_week_cents()), Money.format(day.week_goal())])
+	_day_summary.present("Fim do Dia %d" % day.day_number, lines, button_text)
 
 
 func _on_next_day_pressed() -> void:
 	if day.next_day:
-		GameSession.finish(day)
+		GameSession.finish(day, _results.earnings_cents())
 		get_tree().reload_current_scene()
 	else:
-		GameSession.reset()
-		get_tree().change_scene_to_file(MENU_SCENE)
+		_day_summary.hide()
+		_end_screen.present(_week_cents() >= day.week_goal())
+
+
+func _leave_to_menu() -> void:
+	GameSession.reset()
+	get_tree().paused = false
+	get_tree().change_scene_to_file(MENU_SCENE)
+
+
+## Dinheiro da semana até agora: dias anteriores mais o dia em andamento.
+func _week_cents() -> int:
+	return GameSession.banked_cents + _results.earnings_cents()
 
 
 func _refresh_hud() -> void:
-	_hud.refresh(day.day_number, _results.served, day.customer_count(), _results.earnings_cents(), _bathroom_meter)
+	_hud.refresh(day.day_number, _results.served, day.customer_count(), _results.earnings_cents(),
+		_week_cents(), day.week_goal(), _bathroom_meter)

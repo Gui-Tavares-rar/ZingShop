@@ -37,3 +37,4 @@ arrival_time = 52.0
 script = ExtResource("1_day")
 arrivals = Array[ExtResource("2_arrival")]([SubResource("Resource_arrival0"), SubResource("Resource_arrival1"), SubResource("Resource_arrival2"), SubResource("Resource_arrival3"), SubResource("Resource_arrival4")])
 next_day = ExtResource("next_day")
+patience_multiplier = 1.5

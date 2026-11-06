@@ -17,8 +17,8 @@ birth_year = 2008
 
 [sub_resource type="Resource" id="Resource_q0"]
 script = ExtResource("4_question")
-prompt = "Aniversário de quem?"
-answer = "Meu! Fiz 18 hoje, olha o documento."
+prompt = "É seu aniversário? Parabéns?"
+answer = "Obrigado! Fiz 18 hoje, viu pelo documento né."
 
 [resource]
 script = ExtResource("1_customer")

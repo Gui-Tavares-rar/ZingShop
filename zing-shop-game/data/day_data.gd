@@ -18,6 +18,9 @@ extends Resource
 @export_range(0.0, 1.0, 0.01) var commission_rate: float = 0.25
 ## Desconto no ganho do dia ao errar o troco, em centavos.
 @export var wrong_change_penalty_cents: int = 300
+## Meta de dinheiro da semana (o aluguel), em centavos. Vale no último dia: quem junta isso ou
+## mais, somando todos os dias, vence; senão, perde.
+@export var week_goal_cents: int = 8000
 
 @export_group("Tempo")
 ## Multiplica a paciência de todos os clientes do dia. Abaixo de 1 os clientes desistem
@@ -59,6 +62,16 @@ func should_bar(customer: CustomerData) -> bool:
 ## Segundos que o cliente aguenta no caixa neste dia.
 func patience_for(customer: CustomerData) -> float:
 	return customer.patience_seconds * patience_multiplier
+
+
+## A meta da semana, que fica configurada no último dia da sequência.
+func week_goal() -> int:
+	var last := self
+	var guard := 0
+	while last.next_day != null and guard < 100:
+		last = last.next_day
+		guard += 1
+	return last.week_goal_cents
 
 
 func today_text() -> String:
