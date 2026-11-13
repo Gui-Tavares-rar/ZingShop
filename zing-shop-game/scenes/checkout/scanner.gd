@@ -24,7 +24,7 @@ func beep() -> void:
 	_beep_player.play()
 	_laser_color = BEEP_COLOR
 	queue_redraw()
-	await get_tree().create_timer(BEEP_TIME).timeout
+	await get_tree().create_timer(BEEP_TIME, false).timeout
 	_laser_color = IDLE_COLOR
 	queue_redraw()
 

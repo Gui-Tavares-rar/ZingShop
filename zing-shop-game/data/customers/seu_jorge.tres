@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CustomerData" format=3]
+
+[ext_resource type="Script" uid="uid://djv3jiwu3vngt" path="res://data/customer_data.gd" id="1_customer"]
+[ext_resource type="Script" uid="uid://bl8c30rgmyhpw" path="res://data/item_data.gd" id="2_item"]
+[ext_resource type="Resource" path="res://data/items/carne.tres" id="item_carne"]
+[ext_resource type="Resource" path="res://data/items/ovos.tres" id="item_ovos"]
+[ext_resource type="Resource" path="res://addons/dialogue_blips/voices/calm/calm.tres" id="voice"]
+
+[resource]
+script = ExtResource("1_customer")
+display_name = "Seu Jorge"
+greeting = "E aí, tudo certo?"
+body_color = Color(0.3529412, 0.48235294, 0.8509804, 1)
+items = Array[ExtResource("2_item")]([ExtResource("item_carne"), ExtResource("item_ovos")])
+patience_seconds = 18.0
+voice = ExtResource("voice")
+voice_pitch = 0.8

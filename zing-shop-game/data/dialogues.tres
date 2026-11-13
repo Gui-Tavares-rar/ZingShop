@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://coerx1c81onuo"]
+
+[ext_resource type="Script" uid="uid://br5wph2ar1bdx" path="res://data/dialogue_data.gd" id="1_dialogue"]
+
+[resource]
+script = ExtResource("1_dialogue")
+customer_hands_id = Array[String](["Toma aqui o meu documento.", "Tá aqui, pode conferir.", "Aqui está, tudo certinho."])
+customer_removed = Array[String](["Ei! Me solta! Eu não fiz nada!", "Mas que absurdo! Vou reclamar!", "Isso é um abuso! Eu volto aqui!"])
+customer_pays_card = Array[String](["Vou pagar no cartão.", "No cartão, por favor.", "Passa no cartão aí."])
+customer_pays_cash = Array[String](["Aqui, {cash} em dinheiro.", "Toma, {cash}. Quero o troco!", "Pago em dinheiro: {cash}."])
+customer_thanks_card = Array[String](["Obrigado, tchau!", "Valeu, até mais!", "Tchau, boa tarde!"])
+customer_thanks_cash = Array[String](["Obrigado! Até mais.", "Valeu pelo troco, até a próxima.", "Tudo certo, obrigado!"])
+customer_change_short = Array[String](["Ei, tá faltando troco!", "Opa, o troco veio menor!", "Conta de novo, tá faltando dinheiro aqui."])
+customer_change_wrong = Array[String](["Hã? Esse troco tá errado!", "Não era isso que eu devia receber!", "Esse troco não bate, não!"])
+customer_gives_up = Array[String](["Cansei de esperar! Tô indo embora.", "Que demora! Vou em outro mercado.", "Não tenho o dia todo, tchau!"])
+boss_day_start = Array[String](["Dia {day}! Escaneie tudo, cobre certo e não deixe ninguém esperando.", "Dia {day}. Atenção ao troco e ninguém na fila esperando, hein?"])
+boss_served_should_bar = Array[String](["Você atendeu um cliente que devia ter barrado! Assim a loja perde dinheiro. Vou descontar {penalty} do seu salário.", "Esse cliente não podia ser atendido! Vou descontar {penalty} do seu salário."])
+boss_barred_wrongly = Array[String](["Esse cliente estava certo e você chamou o segurança! Isso espanta freguês. Vou descontar {penalty} do seu salário.", "Chamou o segurança à toa! Isso custa {penalty} do seu salário."])
+boss_praise_barred = Array[String](["Boa! Esse aí estava aprontando.", "Bom olho! Era caso de segurança mesmo."])
+boss_wrong_change = Array[String](["Troco errado! Era {expected} e você deu {given}. Vou descontar {penalty} do seu salário.", "Errou o troco! Eram {expected} e você deu {given}. São {penalty} a menos no seu salário."])
+boss_customer_left = Array[String](["Você deixou o cliente ir embora sem pagar! Assim não dá.", "Perdemos mais um cliente por demora. Assim não dá!"])
+boss_bathroom_start = Array[String](["E agora vai lavar o banheiro!", "Pegue a mangueira: o banheiro é seu!"])
+boss_bathroom_done = Array[String](["Banheiro limpo. Volta pro caixa!", "Agora sim. Vai pro caixa!"])

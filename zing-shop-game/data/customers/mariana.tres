@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="CustomerData" format=3 uid="uid://sb8wohkirxjc"]
+
+[ext_resource type="Script" uid="uid://djv3jiwu3vngt" path="res://data/customer_data.gd" id="1_customer"]
+[ext_resource type="Script" uid="uid://bl8c30rgmyhpw" path="res://data/item_data.gd" id="2_item"]
+[ext_resource type="Script" uid="uid://5tu8701p2uo4" path="res://data/identity_data.gd" id="3_identity"]
+[ext_resource type="Script" uid="uid://bwftx070fmjgb" path="res://data/question.gd" id="4_question"]
+[ext_resource type="Resource" path="res://data/items/cerveja.tres" id="item_cerveja"]
+[ext_resource type="Resource" path="res://data/items/maca.tres" id="item_maca"]
+[ext_resource type="Resource" path="res://data/items/peixe.tres" id="item_peixe"]
+[ext_resource type="Resource" path="res://addons/dialogue_blips/voices/bright/bright.tres" id="voice"]
+
+[sub_resource type="Resource" id="Resource_identity"]
+script = ExtResource("3_identity")
+holder_name = "Mariana Souza"
+birth_day = 3
+birth_month = 11
+birth_year = 1996
+
+[sub_resource type="Resource" id="Resource_q0"]
+script = ExtResource("4_question")
+prompt = "Tem mais alguma coisa para passar?"
+answer = "Só isso, obrigada."
+
+[resource]
+script = ExtResource("1_customer")
+display_name = "Mariana"
+greeting = "Boa tarde! Só uma cervejinha e uma fruta."
+body_color = Color(0.6, 0.35, 0.8, 1)
+items = Array[ExtResource("2_item")]([ExtResource("item_cerveja"), ExtResource("item_peixe"), ExtResource("item_maca")])
+payment_method = 1
+cash_given_cents = 5000
+patience_seconds = 20.0
+voice = ExtResource("voice")
+id_card = SubResource("Resource_identity")
+hands_over_id = false
+questions = Array[ExtResource("4_question")]([SubResource("Resource_q0")])

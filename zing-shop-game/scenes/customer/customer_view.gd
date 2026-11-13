@@ -1,7 +1,8 @@
 class_name CustomerView
 extends Control
 
-## Cliente sendo atendido no caixa: boneco, nome, barra de paciência e balão de fala.
+## Cliente sendo atendido no caixa: boneco, barra de paciência e balão de fala.
+## O nome não aparece: o jogador descobre quem é o cliente pelo documento.
 ## As falas são digitadas letra por letra, com os blips da voz do cliente.
 
 const PATIENCE_LOW := Color("e5484d")
@@ -28,7 +29,7 @@ var _typing_clock := 0.0
 var _question_lifts := PackedFloat32Array()
 
 @onready var _figure: PersonFigure = %Figure
-@onready var _name_label: Label = %NameLabel
+@onready var _portrait: TextureRect = %Portrait
 @onready var _patience_bar: ProgressBar = %PatienceBar
 @onready var _speech: PanelContainer = %Speech
 @onready var _speech_label: Label = %SpeechLabel
@@ -58,7 +59,10 @@ func present(customer: CustomerData) -> void:
 	_voice_pitch = customer.voice_pitch
 	_figure.body_color = customer.body_color
 	_figure.mood = PersonFigure.Mood.NEUTRAL
-	_name_label.text = customer.display_name
+	# Com sprite, o boneco provisório fica escondido (mas continua marcando o tamanho do cliente).
+	_portrait.texture = customer.portrait
+	_portrait.visible = customer.portrait != null
+	_figure.modulate.a = 0.0 if customer.portrait else 1.0
 	_speech.hide()
 	set_patience(1.0)
 	show()

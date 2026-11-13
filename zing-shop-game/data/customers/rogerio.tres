@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="CustomerData" format=3 uid="uid://b0gb7pusr37qy"]
+
+[ext_resource type="Script" uid="uid://djv3jiwu3vngt" path="res://data/customer_data.gd" id="1_customer"]
+[ext_resource type="Script" uid="uid://bl8c30rgmyhpw" path="res://data/item_data.gd" id="2_item"]
+[ext_resource type="Script" uid="uid://5tu8701p2uo4" path="res://data/identity_data.gd" id="3_identity"]
+[ext_resource type="Script" uid="uid://bwftx070fmjgb" path="res://data/question.gd" id="4_question"]
+[ext_resource type="Resource" uid="uid://p7fmfiq8pua" path="res://data/customers/seu_antonio.tres" id="5_photo"]
+[ext_resource type="Resource" path="res://data/items/carne.tres" id="item_carne"]
+[ext_resource type="Resource" path="res://data/items/cerveja.tres" id="item_cerveja"]
+[ext_resource type="Resource" path="res://addons/dialogue_blips/voices/square/square.tres" id="voice"]
+
+[sub_resource type="Resource" id="Resource_identity"]
+script = ExtResource("3_identity")
+holder_name = "Ricardo Alves"
+birth_day = 25
+birth_month = 5
+birth_year = 1991
+photo_of = ExtResource("5_photo")
+
+[sub_resource type="Resource" id="Resource_q0"]
+script = ExtResource("4_question")
+prompt = "Pode confirmar seu nome completo?"
+answer = "Rogério Almeida. Por quê? Tá tudo certo, pode olhar!"
+
+[sub_resource type="Resource" id="Resource_q1"]
+script = ExtResource("4_question")
+prompt = "Esse documento é seu mesmo?"
+answer = "Claro que é! Anda logo, tô com pressa."
+
+[resource]
+script = ExtResource("1_customer")
+display_name = "Rogério"
+greeting = "Oi, vou levar o churrasco de hoje, tá?"
+body_color = Color(0.95, 0.55, 0.2, 1)
+items = Array[ExtResource("2_item")]([ExtResource("item_carne"), ExtResource("item_cerveja")])
+payment_method = 1
+cash_given_cents = 5000
+patience_seconds = 20.0
+voice = ExtResource("voice")
+voice_pitch = 1.1
+id_card = SubResource("Resource_identity")
+questions = Array[ExtResource("4_question")]([SubResource("Resource_q0"), SubResource("Resource_q1")])
+problems = Array[int]([0])

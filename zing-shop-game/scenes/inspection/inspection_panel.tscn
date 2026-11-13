@@ -1,0 +1,206 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/inspection/inspection_panel.gd" id="1_panel"]
+[ext_resource type="Script" path="res://scenes/customer/person_figure.gd" id="2_figure"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.11, 0.063, 0.188, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.435, 0.659, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_document"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0.82, 0.92, 0.86, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.05, 0.3, 0.16, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_photo"]
+bg_color = Color(0.62, 0.74, 0.84, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.05, 0.3, 0.16, 1)
+
+[node name="InspectionPanel" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+script = ExtResource("1_panel")
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="DocumentColumn" type="VBoxContainer" parent="Row"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+
+[node name="DocumentTitle" type="Label" parent="Row/DocumentColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "DOCUMENTO"
+
+[node name="Document" type="PanelContainer" parent="Row/DocumentColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_document")
+
+[node name="CardLayout" type="VBoxContainer" parent="Row/DocumentColumn/Document"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Header" type="Label" parent="Row/DocumentColumn/Document/CardLayout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.05, 0.3, 0.16, 1)
+theme_override_font_sizes/font_size = 11
+text = "REPÚBLICA FEDERATIVA DO BRASIL"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Row/DocumentColumn/Document/CardLayout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.05, 0.3, 0.16, 1)
+theme_override_font_sizes/font_size = 14
+text = "CARTEIRA DE IDENTIDADE"
+horizontal_alignment = 1
+
+[node name="Body" type="HBoxContainer" parent="Row/DocumentColumn/Document/CardLayout"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PhotoFrame" type="PanelContainer" parent="Row/DocumentColumn/Document/CardLayout/Body"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_photo")
+
+[node name="PhotoFigure" type="Control" parent="Row/DocumentColumn/Document/CardLayout/Body/PhotoFrame"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(84, 96)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_figure")
+
+[node name="PhotoTexture" type="TextureRect" parent="Row/DocumentColumn/Document/CardLayout/Body/PhotoFrame"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(84, 96)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Fields" type="VBoxContainer" parent="Row/DocumentColumn/Document/CardLayout/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="NameCaption" type="Label" parent="Row/DocumentColumn/Document/CardLayout/Body/Fields"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.38, 0.35, 1)
+theme_override_font_sizes/font_size = 10
+text = "NOME"
+
+[node name="HolderLabel" type="Label" parent="Row/DocumentColumn/Document/CardLayout/Body/Fields"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.08, 0.1, 0.12, 1)
+text = "Fulano de Tal"
+autowrap_mode = 3
+
+[node name="BirthCaption" type="Label" parent="Row/DocumentColumn/Document/CardLayout/Body/Fields"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.38, 0.35, 1)
+theme_override_font_sizes/font_size = 10
+text = "DATA DE NASCIMENTO"
+
+[node name="BirthLabel" type="Label" parent="Row/DocumentColumn/Document/CardLayout/Body/Fields"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.08, 0.1, 0.12, 1)
+text = "01/01/1990"
+
+[node name="NoDocumentLabel" type="Label" parent="Row/DocumentColumn"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Este cliente não tem documento."
+autowrap_mode = 3
+
+[node name="RequestButton" type="Button" parent="Row/DocumentColumn"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+focus_mode = 0
+text = "Pedir documento"
+
+[node name="QuestionColumn" type="VBoxContainer" parent="Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CartTitle" type="Label" parent="Row/QuestionColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "NO CARRINHO"
+
+[node name="CartLabel" type="Label" parent="Row/QuestionColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "-"
+autowrap_mode = 3
+
+[node name="QuestionsTitle" type="Label" parent="Row/QuestionColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "PERGUNTAR"
+
+[node name="Questions" type="VBoxContainer" parent="Row/QuestionColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DecisionColumn" type="VBoxContainer" parent="Row"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="DecisionTitle" type="Label" parent="Row/DecisionColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "DECIDIR"
+
+[node name="ServeButton" type="Button" parent="Row/DecisionColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0.49, 1, 0.66, 1)
+text = "Atender"
+
+[node name="SecurityButton" type="Button" parent="Row/DecisionColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 0.55, 0.55, 1)
+text = "Chamar o segurança"

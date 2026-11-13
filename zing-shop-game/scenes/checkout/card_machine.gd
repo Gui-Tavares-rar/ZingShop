@@ -34,7 +34,7 @@ func _on_pressed() -> void:
 		return
 	disabled = true
 	text = TITLE + "Processando..."
-	await get_tree().create_timer(PROCESSING_TIME).timeout
+	await get_tree().create_timer(PROCESSING_TIME, false).timeout
 	if not _active:
 		return
 	_active = false

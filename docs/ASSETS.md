@@ -23,6 +23,7 @@ top-down (16×16 de RPG/mercado) não servem.
 
 Ferramentas: [Piskel](https://www.piskelapp.com) (grátis, no navegador) ou Aseprite/LibreSprite.
 
+- [ ] Cerveja (lata): hoje usa a poção verde de RPG (`tiles/potion_green_01.png`) como quebra-galho
 - [ ] Sacola (papel ou plástico)
 - [ ] Maquininha de cartão (telas: aguardando, processando, aprovado)
 - [ ] Notas de real a partir do pack Dollar (recolorir cada valor)
@@ -34,3 +35,14 @@ Ferramentas: [Piskel](https://www.piskelapp.com) (grátis, no navegador) ou Asep
   por [Gabor Monori](https://unsplash.com/@gabor) no Unsplash. Licença Unsplash: uso livre, inclusive comercial,
   sem crédito obrigatório (mas vamos creditar mesmo assim). Banheiro abandonado com pichação; a sujeira em pixel vai por cima.
   No projeto: `assets/backgrounds/bathroom.jpg` (reduzida para 1920 px); o original em resolução cheia está em `extras/originais/`.
+
+## Efeitos sonoros (Freesound)
+
+Em `zing-shop-game/assets/sounds/`; os originais estão em `extras/originais/sons/`.
+Os arquivos do jogo foram cortados, normalizados e (a água) emendados para repetir sem pausa.
+
+| Som | Arquivo | Origem | Licença |
+|---|---|---|---|
+| Sino de balcão (chegada do cliente) | `bell.wav` | [Reception Bell](https://freesound.org/s/398281/) por FlashTrauma | CC0 |
+| Alarme de erro | `alarm.wav` | [Incorrect Buzzer](https://freesound.org/s/700641/) por Producing_RayLite | CC0 |
+| Jato de água (mangueira) | `water_spray.wav` | [20060727.kitchen.jet.wav](https://freesound.org/s/21198/) por dobroide | CC BY 4.0, crédito: `20060727.kitchen.jet.wav by dobroide - https://freesound.org/s/21198/ - CC BY 4.0` |

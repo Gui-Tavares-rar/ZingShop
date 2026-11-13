@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://ba0kj67q3aexc"]
+
+[ext_resource type="Script" uid="uid://cy3vf2qxfrjoe" path="res://scenes/menu/how_to_play.gd" id="1_how"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 32.0
+content_margin_top = 24.0
+content_margin_right = 32.0
+content_margin_bottom = 24.0
+bg_color = Color(0.18, 0.1, 0.32, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.435, 0.659, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="HowToPlay" type="Control" unique_id=1944400466]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_how")
+
+[node name="Dim" type="ColorRect" parent="." unique_id=71225323]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=652490301]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=642038960]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel" unique_id=730780209]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Center/Panel/VBox" unique_id=967668076]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.435, 0.659, 1)
+theme_override_font_sizes/font_size = 34
+text = "Como jogar"
+horizontal_alignment = 1
+
+[node name="Text" type="RichTextLabel" parent="Center/Panel/VBox" unique_id=978633064]
+custom_minimum_size = Vector2(840, 470)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 15
+theme_override_font_sizes/bold_font_size = 15
+bbcode_enabled = true
+text = "[color=#ff6fa8][b]Objetivo[/b][/color]
+Atenda os clientes rápido e sem erros para ganhar comissão. Cada erro desconta do seu salário do dia e enche o medidor do banheiro.
+
+[color=#ff6fa8][b]1. Escaneie[/b][/color]
+O cliente joga os itens na mesa. Arraste cada item com o botão esquerdo do mouse até passar pelo scanner e solte para ele ir para a sacola. Quando todos estiverem registrados, clique em Cobrar no monitor.
+
+[color=#ff6fa8][b]2. Receba[/b][/color]
+• [b]Cartão:[/b] clique na maquininha.
+• [b]Dinheiro:[/b] o monitor mostra o TOTAL e o RECEBIDO. Calcule o troco (recebido − total). Na gaveta, segure uma moeda ou nota, ajuste a quantidade com o scroll ou as setas e solte na mesa de troco. Clique numa pilha para devolver uma, ou em Recolher tudo para recomeçar. Quando estiver certo, clique em Entregar troco. (Botão direito ou Esc cancelam a peça que você está segurando.)
+
+[color=#ff6fa8][b]3. Dia 2 em diante: inspeção[/b][/color]
+Antes de escanear, você decide se atende o cliente:s
+• Compare a foto do documento com o rosto do cliente. Se não for a mesma pessoa, o documento é falso: Chame o segurança.
+• Quem compra bebida alcoólica precisa ter 18 anos ou mais. Confira a data de nascimento com a data de hoje, que aparece no painel. Menor de idade: Chame o segurança.
+• Se o cliente não entregou o documento, clique em Pedir documento.
+• Use Perguntar para ouvir o que o cliente diz. Se estiver tudo certo, clique em Atender.
+Chamar o segurança sem motivo também é erro.
+
+[color=#ff6fa8][b]Paciência[/b][/color]
+A barra no cliente mostra quanto ele ainda espera. Se zerar, ele vai embora sem spagar.
+
+[color=#ff6fa8][b]Teclas[/b][/color]
+[b]P[/b] pausa e continua o jogo. [b]M[/b] volta ao menu e zera a semana.
+
+[color=#ff6fa8][b]Banheiro[/b][/color]
+Quando o medidor do banheiro lota, você deve lavá-lo. Segure o botão do mouse e passe a mangueira sobre a sujeira até limpar tudo. O cliente do caixa perde a paciência mais devagar enquanto você lava, mas ainda perde."
+
+[node name="CloseButton" type="Button" parent="Center/Panel/VBox" unique_id=1497462289]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Voltar"
