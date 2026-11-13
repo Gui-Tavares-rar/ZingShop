@@ -10,8 +10,8 @@ extends PanelContainer
 @onready var _bathroom_bar: ProgressBar = %BathroomBar
 
 
-func refresh(day_number: int, served: int, customer_count: int, earnings_cents: int, week_cents: int, goal_cents: int, bathroom_meter: float) -> void:
-	_day_label.text = "Dia %d" % day_number
+func refresh(day_title: String, served: int, customer_count: int, earnings_cents: int, week_cents: int, goal_cents: int, bathroom_meter: float) -> void:
+	_day_label.text = day_title
 	_served_label.text = "Atendidos: %d/%d" % [served, customer_count]
 	_earnings_label.text = "Ganho do dia: " + Money.format(earnings_cents)
 	_week_label.text = "Meta da semana: %s / %s" % [Money.format(week_cents), Money.format(goal_cents)]

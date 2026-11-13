@@ -8,6 +8,10 @@ extends Control
 signal payment_started
 ## A venda terminou. No dinheiro, traz o troco dado e o esperado; no cartão, os dois são 0.
 signal sale_finished(correct: bool, given_cents: int, expected_cents: int)
+## Todos os itens do cliente passaram pelo scanner.
+signal all_items_scanned
+## Com retry_wrong_change ligado: o troco entregue estava errado e o jogador pode tentar de novo.
+signal change_rejected(given_cents: int, expected_cents: int)
 
 enum State { IDLE, SCANNING, AWAITING_CARD, MAKING_CHANGE }
 
@@ -16,6 +20,10 @@ const ITEM_SPACING := Vector2(84.0, 84.0)
 const ITEM_THROW_INTERVAL := 0.15
 const ITEM_FLIGHT_TIME := 0.6
 const BAG_FLIGHT_TIME := 0.35
+
+## Troco errado não encerra a venda: o troco volta para a mesa e o jogador corrige.
+## Usado no treinamento (Prólogo).
+var retry_wrong_change := false
 
 var _state := State.IDLE
 var _customer: CustomerData
@@ -113,6 +121,7 @@ func _on_item_scanned(item: ScannableItem) -> void:
 	if _scanned_count == _items.size():
 		_monitor.set_status("Todos os itens registrados")
 		_monitor.set_charge_enabled(true)
+		all_items_scanned.emit()
 
 
 ## Item escaneado é jogado na sacola ao soltar; os outros caem de volta na mesa se forem soltos no ar.
@@ -154,6 +163,9 @@ func _on_change_delivered(given_cents: int) -> void:
 	if _state != State.MAKING_CHANGE:
 		return
 	var expected := _customer.cash_given_cents - _customer.get_total_cents()
+	if retry_wrong_change and given_cents != expected:
+		change_rejected.emit(given_cents, expected)
+		return
 	_finish(given_cents == expected, given_cents, expected)
 
 

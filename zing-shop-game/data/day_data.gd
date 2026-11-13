@@ -4,6 +4,11 @@ extends Resource
 ## Configuração de um dia de expediente (uma fase).
 
 @export var day_number: int = 1
+## Nome do dia no HUD e no resumo. Vazio mostra "Dia N".
+@export var title: String = ""
+## Dia de treinamento (o Prólogo): o chefe guia o jogador passo a passo (ver Tutorial).
+## Ninguém perde a paciência, erros não descontam do salário e o ganho não conta para a meta.
+@export var tutorial: bool = false
 ## Data do dia no jogo; o jogador usa para calcular a idade nos documentos.
 @export var date_year: int = 2026
 @export_range(1, 12) var date_month: int = 3
@@ -72,6 +77,11 @@ func week_goal() -> int:
 		last = last.next_day
 		guard += 1
 	return last.week_goal_cents
+
+
+## Ex.: "Prólogo" ou "Dia 1".
+func display_title() -> String:
+	return title if not title.is_empty() else "Dia %d" % day_number
 
 
 func today_text() -> String:

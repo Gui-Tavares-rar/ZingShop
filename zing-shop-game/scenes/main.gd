@@ -2,7 +2,14 @@ extends Control
 
 ## Controla um dia de expediente: chama os clientes da fila, acompanha a paciência de quem
 ## está no caixa e aplica as broncas do chefe. A venda em si fica com o Checkout e a
-## conversa com o cliente, com o InspectionPanel.
+## conversa com o cliente, com o InspectionPanel. No Prólogo (DayData.tutorial), o Tutorial
+## decide quando cada cliente entra e o que o jogador aprende com ele.
+
+## Um cliente foi chamado ao caixa (já aparece no balcão e na inspeção).
+signal customer_called(customer: CustomerData)
+## O jogador decidiu na inspeção. `correct` diz se era a decisão certa. No treinamento, uma decisão
+## errada não vale: a inspeção continua aberta para o jogador tentar de novo.
+signal decision_judged(correct: bool)
 
 enum State { NO_CUSTOMER, INSPECTING, SERVING, CUSTOMER_LEAVING, DAY_OVER }
 
@@ -36,6 +43,7 @@ var _bathroom_meter := 0.0
 @onready var _pause_menu: PauseMenu = %PauseMenu
 @onready var _bell_sound: AudioStreamPlayer = %BellSound
 @onready var _alarm_sound: AudioStreamPlayer = %AlarmSound
+@onready var _tutorial: Tutorial = %Tutorial
 
 
 func _ready() -> void:
@@ -55,7 +63,14 @@ func _ready() -> void:
 	_bathroom.hide()
 	_day_summary.hide()
 	_refresh_hud()
-	_boss_says(dialogues.boss_day_start, {"day": day.day_number})
+	if day.tutorial:
+		_checkout.retry_wrong_change = true
+		_boss.hide()
+		_tutorial.begin(self, day)
+	else:
+		_tutorial.queue_free()
+		_tutorial = null
+		_boss_says(dialogues.boss_day_start, {"day": day.display_title()})
 
 
 func _process(delta: float) -> void:
@@ -64,12 +79,22 @@ func _process(delta: float) -> void:
 	_queue.advance(delta)
 	match _state:
 		State.NO_CUSTOMER:
-			if _queue.has_waiting():
+			if _queue.has_waiting() and _may_call_customer():
 				_call_next_customer()
-			elif _queue.is_finished() and not _bathroom.visible:
+			elif _queue.is_finished() and not _bathroom.visible and _may_end_day():
 				_end_day()
 		State.INSPECTING, State.SERVING:
-			_drain_patience(delta)
+			if not day.tutorial:
+				_drain_patience(delta)
+
+
+## No Prólogo, o próximo cliente só entra quando o Tutorial pede.
+func _may_call_customer() -> bool:
+	return _tutorial == null or _tutorial.wants_customer()
+
+
+func _may_end_day() -> bool:
+	return _tutorial == null or _tutorial.is_finished()
 
 
 func _drain_patience(delta: float) -> void:
@@ -88,12 +113,14 @@ func _call_next_customer() -> void:
 	_patience_total = day.patience_for(_current)
 	_patience_left = _patience_total
 	_customer_view.present(_current)
+	_customer_view.set_patience(1.0)
 	_customer_view.say(_current.greeting)
 	if day.inspection_enabled:
 		_inspection.open(_current, day.today_text())
 		_state = State.INSPECTING
 	else:
 		_start_serving()
+	customer_called.emit(_current)
 
 
 func _start_serving() -> void:
@@ -114,29 +141,39 @@ func _on_document_requested() -> void:
 func _on_serve_chosen() -> void:
 	if _state != State.INSPECTING:
 		return
+	var correct := not day.should_bar(_current)
+	if day.tutorial and not correct:
+		decision_judged.emit(false)
+		return
 	_inspection.close()
 	_start_serving()
-	if day.should_bar(_current):
+	if not correct:
 		_pending_mistake = {
 			"message": dialogues.pick(dialogues.boss_served_should_bar, {"penalty": Money.format(day.wrong_decision_penalty_cents)}),
 			"reason": "Atendeu quem devia barrar",
 		}
+	decision_judged.emit(correct)
 
 
 ## O jogador chamou o segurança. Se o cliente não tinha problema nenhum, o chefe cobra.
 func _on_security_called() -> void:
 	if _state != State.INSPECTING:
 		return
+	var correct := day.should_bar(_current)
+	if day.tutorial and not correct:
+		decision_judged.emit(false)
+		return
 	_inspection.close()
 	_results.add_removed_customer()
 	_customer_view.set_mood(PersonFigure.Mood.ANGRY)
 	_customer_says(dialogues.customer_removed)
-	if day.should_bar(_current):
+	if correct:
 		_boss_says(dialogues.boss_praise_barred)
 	else:
 		_wrong_decision(dialogues.pick(dialogues.boss_barred_wrongly, {"penalty": Money.format(day.wrong_decision_penalty_cents)}),
 			"Barrou quem estava certo")
 	_dismiss_customer_later()
+	decision_judged.emit(correct)
 
 
 func _wrong_decision(message: String, reason: String) -> void:
@@ -235,10 +272,19 @@ func _customer_says(lines: Array[String], values: Dictionary = {}) -> void:
 		_customer_view.say(text)
 
 
+## No Prólogo quem fala é o Tutorial, então os recados soltos do chefe ficam de fora.
 func _boss_says(lines: Array[String], values: Dictionary = {}) -> void:
+	if day.tutorial:
+		return
 	var text := dialogues.pick(lines, values)
 	if not text.is_empty():
 		_boss.say(text)
+
+
+## Treino do banheiro no Prólogo: suja o banheiro sem ninguém ter errado.
+func start_bathroom_drill() -> void:
+	_bathroom.set_customer_patience(-1.0)
+	_bathroom.start()
 
 
 func _on_bathroom_cleaned() -> void:
@@ -251,13 +297,19 @@ func _end_day() -> void:
 	_state = State.DAY_OVER
 	var button_text := "Próximo dia" if day.next_day else "Ver resultado"
 	var lines := _results.summary_lines(day.customer_count())
-	lines.append("Na semana: %s de %s" % [Money.format(_week_cents()), Money.format(day.week_goal())])
-	_day_summary.present("Fim do Dia %d" % day.day_number, lines, button_text)
+	if day.tutorial:
+		GameSession.mark_prologue_done()
+		lines.append("O Prólogo é treino: o ganho não conta para a meta.")
+		if day.next_day:
+			button_text = "Começar o " + day.next_day.display_title()
+	else:
+		lines.append("Na semana: %s de %s" % [Money.format(_week_cents()), Money.format(day.week_goal())])
+	_day_summary.present("Fim do " + day.display_title(), lines, button_text)
 
 
 func _on_next_day_pressed() -> void:
 	if day.next_day:
-		GameSession.finish(day, _results.earnings_cents())
+		GameSession.finish(day, 0 if day.tutorial else _results.earnings_cents())
 		get_tree().reload_current_scene()
 	else:
 		_day_summary.hide()
@@ -270,11 +322,13 @@ func _leave_to_menu() -> void:
 	get_tree().change_scene_to_file(MENU_SCENE)
 
 
-## Dinheiro da semana até agora: dias anteriores mais o dia em andamento.
+## Dinheiro da semana até agora: dias anteriores mais o dia em andamento (o Prólogo não conta).
 func _week_cents() -> int:
+	if day.tutorial:
+		return GameSession.banked_cents
 	return GameSession.banked_cents + _results.earnings_cents()
 
 
 func _refresh_hud() -> void:
-	_hud.refresh(day.day_number, _results.served, day.customer_count(), _results.earnings_cents(),
+	_hud.refresh(day.display_title(), _results.served, day.customer_count(), _results.earnings_cents(),
 		_week_cents(), day.week_goal(), _bathroom_meter)

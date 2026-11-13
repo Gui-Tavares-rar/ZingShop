@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="CustomerData" format=3]
+
+[ext_resource type="Script" uid="uid://djv3jiwu3vngt" path="res://data/customer_data.gd" id="1_customer"]
+[ext_resource type="Script" uid="uid://bl8c30rgmyhpw" path="res://data/item_data.gd" id="2_item"]
+[ext_resource type="Script" uid="uid://5tu8701p2uo4" path="res://data/identity_data.gd" id="3_identity"]
+[ext_resource type="Script" uid="uid://bwftx070fmjgb" path="res://data/question.gd" id="4_question"]
+[ext_resource type="Resource" path="res://data/items/ovos.tres" id="item_ovos"]
+[ext_resource type="Resource" path="res://data/items/cenoura.tres" id="item_cenoura"]
+[ext_resource type="Resource" path="res://addons/dialogue_blips/voices/marimba/marimba.tres" id="voice"]
+
+[sub_resource type="Resource" id="Resource_identity"]
+script = ExtResource("3_identity")
+holder_name = "Valdir Nunes"
+birth_day = 3
+birth_month = 2
+birth_year = 1975
+
+[sub_resource type="Resource" id="Resource_q0"]
+script = ExtResource("4_question")
+prompt = "Tudo bem com o senhor?"
+answer = "Tudo ótimo! Hoje tem bolo de cenoura lá em casa."
+
+[resource]
+script = ExtResource("1_customer")
+display_name = "Seu Valdir"
+greeting = "Opa! Só isso aqui, ó."
+body_color = Color(0.55, 0.45, 0.85, 1)
+items = Array[ExtResource("2_item")]([ExtResource("item_ovos"), ExtResource("item_cenoura"), ExtResource("item_cenoura"), ExtResource("item_cenoura")])
+payment_method = 1
+cash_given_cents = 5000
+patience_seconds = 60.0
+voice = ExtResource("voice")
+voice_pitch = 0.85
+id_card = SubResource("Resource_identity")
+hands_over_id = false
+questions = Array[ExtResource("4_question")]([SubResource("Resource_q0")])
