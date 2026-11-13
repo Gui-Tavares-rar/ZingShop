@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bhpius3rof41v"]
 
 [ext_resource type="Script" uid="uid://2p3io1gpknnf" path="res://scenes/main.gd" id="1_main"]
-[ext_resource type="Resource" uid="uid://cgoshmiwm6iec" path="res://data/days/day_1.tres" id="2_ya4ey"]
+[ext_resource type="Resource" uid="uid://cgoshmiwm6iec" path="res://data/days/prologue.tres" id="2_ya4ey"]
 [ext_resource type="PackedScene" path="res://scenes/customer/customer_view.tscn" id="3_customer"]
 [ext_resource type="Script" uid="uid://jip264yeicnx" path="res://scenes/customer/queue_view.gd" id="4_queue"]
 [ext_resource type="PackedScene" path="res://scenes/checkout/checkout.tscn" id="5_checkout"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/day_summary.tscn" id="10_summary"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="14_pause"]
 [ext_resource type="PackedScene" path="res://scenes/ui/end_screen.tscn" id="15_end"]
+[ext_resource type="PackedScene" path="res://scenes/tutorial/tutorial.tscn" id="16_tutorial"]
 [ext_resource type="AudioStream" uid="uid://gbo6183u0u1k" path="res://assets/sounds/bell.wav" id="12_bell"]
 [ext_resource type="AudioStream" uid="uid://c3xatq8gxxn8f" path="res://assets/sounds/alarm.wav" id="13_alarm"]
 [ext_resource type="Texture2D" uid="uid://m84ykvis2pii" path="res://assets/backgrounds/supermarket.png" id="11_background"]
@@ -83,6 +84,10 @@ offset_left = 16.0
 offset_top = 52.0
 offset_right = 384.0
 offset_bottom = 140.0
+
+[node name="Tutorial" parent="." instance=ExtResource("16_tutorial")]
+unique_name_in_owner = true
+layout_mode = 1
 
 [node name="DaySummary" parent="." unique_id=1658793022 instance=ExtResource("10_summary")]
 unique_name_in_owner = true

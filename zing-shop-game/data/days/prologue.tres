@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="DayData" format=3 uid="uid://cgoshmiwm6iec"]
+
+[ext_resource type="Script" uid="uid://dgik8wey7ohbk" path="res://data/day_data.gd" id="1_day"]
+[ext_resource type="Script" uid="uid://br1hv5j6xq54f" path="res://data/customer_arrival.gd" id="2_arrival"]
+[ext_resource type="Resource" path="res://data/customers/prologo_cida.tres" id="c_cida"]
+[ext_resource type="Resource" path="res://data/customers/prologo_valdir.tres" id="c_valdir"]
+[ext_resource type="Resource" path="res://data/customers/prologo_diego.tres" id="c_diego"]
+[ext_resource type="Resource" path="res://data/customers/prologo_junior.tres" id="c_junior"]
+[ext_resource type="Resource" uid="uid://gppanaoisarx" path="res://data/days/day_1.tres" id="next_day"]
+
+[sub_resource type="Resource" id="Resource_arrival0"]
+script = ExtResource("2_arrival")
+customer = ExtResource("c_cida")
+
+[sub_resource type="Resource" id="Resource_arrival1"]
+script = ExtResource("2_arrival")
+customer = ExtResource("c_valdir")
+
+[sub_resource type="Resource" id="Resource_arrival2"]
+script = ExtResource("2_arrival")
+customer = ExtResource("c_diego")
+
+[sub_resource type="Resource" id="Resource_arrival3"]
+script = ExtResource("2_arrival")
+customer = ExtResource("c_junior")
+
+[resource]
+script = ExtResource("1_day")
+day_number = 0
+title = "Prólogo"
+tutorial = true
+date_day = 15
+arrivals = Array[ExtResource("2_arrival")]([SubResource("Resource_arrival0"), SubResource("Resource_arrival1"), SubResource("Resource_arrival2"), SubResource("Resource_arrival3")])
+next_day = ExtResource("next_day")
+inspection_enabled = true
+active_rules = Array[int]([0])
+verify_age_for_alcohol = true

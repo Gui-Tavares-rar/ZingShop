@@ -1,0 +1,77 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/tutorial/tutorial.gd" id="1_tutorial"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_coach"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 14.0
+bg_color = Color(0.18, 0.1, 0.32, 0.97)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.435, 0.659, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="Tutorial" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_tutorial")
+
+[node name="Blocker" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Coach" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 52.0
+offset_right = 384.0
+offset_bottom = 120.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_coach")
+
+[node name="VBox" type="VBoxContainer" parent="Coach"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="Label" parent="Coach/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.435, 0.659, 1)
+theme_override_font_sizes/font_size = 18
+text = "CHEFE · Treinamento"
+
+[node name="CoachText" type="RichTextLabel" parent="Coach/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(336, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/bold_font_size = 16
+bbcode_enabled = true
+fit_content = true
+autowrap_mode = 3
+
+[node name="ContinueButton" type="Button" parent="Coach/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Continuar"

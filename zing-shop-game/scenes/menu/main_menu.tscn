@@ -1,7 +1,6 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scenes/menu/main_menu.gd" id="1_menu"]
-[ext_resource type="PackedScene" path="res://scenes/menu/how_to_play.tscn" id="3_how"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/supermarket.png" id="2_background"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
@@ -89,18 +88,14 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Iniciar jogo"
 
-[node name="HowToButton" type="Button" parent="Center/Panel/VBox"]
+[node name="PrologueButton" type="Button" parent="Center/Panel/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Como jogar"
+text = "Jogar o Prólogo de novo"
 
 [node name="QuitButton" type="Button" parent="Center/Panel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Sair"
-
-[node name="HowToPlay" parent="." instance=ExtResource("3_how")]
-unique_name_in_owner = true
-layout_mode = 1
