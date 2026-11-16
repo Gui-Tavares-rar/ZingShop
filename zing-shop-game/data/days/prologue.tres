@@ -6,7 +6,7 @@
 [ext_resource type="Resource" path="res://data/customers/prologo_valdir.tres" id="c_valdir"]
 [ext_resource type="Resource" path="res://data/customers/prologo_diego.tres" id="c_diego"]
 [ext_resource type="Resource" path="res://data/customers/prologo_junior.tres" id="c_junior"]
-[ext_resource type="Resource" uid="uid://gppanaoisarx" path="res://data/days/day_1.tres" id="next_day"]
+[ext_resource type="Resource" path="res://data/days/day_1.tres" id="next_day"]
 
 [sub_resource type="Resource" id="Resource_arrival0"]
 script = ExtResource("2_arrival")

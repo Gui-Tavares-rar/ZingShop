@@ -17,6 +17,9 @@ extends Resource
 @export var arrivals: Array[CustomerArrival] = []
 ## Dia que começa depois deste. Vazio no último dia da semana.
 @export var next_day: DayData
+## Recado do chefe ao abrir o dia, para anunciar uma regra nova. Vazio usa uma das falas
+## genéricas de boss_day_start (data/dialogues.tres).
+@export_multiline var boss_intro: String = ""
 
 @export_group("Economia")
 ## Fração do valor de cada venda que vira comissão para o jogador.
