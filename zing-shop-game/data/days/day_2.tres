@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DayData" format=3 uid="uid://gppanaoisarx"]
+[gd_resource type="Resource" script_class="DayData" format=3 uid="uid://bghk6gs7pj3jx"]
 
 [ext_resource type="Script" uid="uid://dgik8wey7ohbk" path="res://data/day_data.gd" id="1_day"]
 [ext_resource type="Script" uid="uid://br1hv5j6xq54f" path="res://data/customer_arrival.gd" id="2_arrival"]
