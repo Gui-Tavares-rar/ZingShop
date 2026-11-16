@@ -70,7 +70,10 @@ func _ready() -> void:
 	else:
 		_tutorial.queue_free()
 		_tutorial = null
-		_boss_says(dialogues.boss_day_start, {"day": day.display_title()})
+		if day.boss_intro.is_empty():
+			_boss_says(dialogues.boss_day_start, {"day": day.display_title()})
+		else:
+			_boss.say(day.boss_intro)
 
 
 func _process(delta: float) -> void:
