@@ -16,8 +16,6 @@ Marque `[x]` quando o PR for mesclado.
 
 ### [ ] 1. `feat/layout-cores-em-destaque` (item 4)
 
-A branch já existe no GitHub, ainda sem commits próprios.
-
 - `BossToast` no topo central, maior, com cor por tipo (bronca / elogio / info) via
   `say(message, kind)`.
 - Fila de recados; tempo na tela proporcional ao tamanho do texto.
